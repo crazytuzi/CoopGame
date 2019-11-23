@@ -10,6 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 
 UCLASS()
+
 class COOPGAME_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
@@ -43,5 +44,5 @@ public:
 	// Called to bind functionality to input
 	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual FVector GetPawnViewLocation() const override;
+	FVector GetPawnViewLocation() const override;
 };
