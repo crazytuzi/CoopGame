@@ -7,9 +7,10 @@
 #include "SHealthComponent.generated.h"
 
 // OnHealthChanged event
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FOnHealthChangedSignature, USHealthComponent*, HealthComp, float, Health,
-                                             float, HealthDelta, const UDamageType*, DamageType,
-                                             AController*, InstigatedBy, AActor*, DamageCauser);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FOnHealthChangedSignature, const class USHealthComponent*, HealthComp,
+                                             float, Health,
+                                             float, HealthDelta, const class UDamageType*, DamageType,
+                                             class AController*, InstigatedBy, AActor*, DamageCauser);
 
 UCLASS(ClassGroup=(COOP), meta=(BlueprintSpawnableComponent))
 

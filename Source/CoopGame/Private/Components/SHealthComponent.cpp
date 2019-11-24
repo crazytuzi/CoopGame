@@ -10,7 +10,7 @@ USHealthComponent::USHealthComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	DefaultHealth = 100;
+	DefaultHealth = 100.f;
 }
 
 
@@ -31,7 +31,7 @@ void USHealthComponent::BeginPlay()
 void USHealthComponent::HandleTakeAnyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType,
                                             AController* InstigatedBy, AActor* DamageCauser)
 {
-	if (Damage <= 0.0f)
+	if (Damage <= 0.f)
 	{
 		return;
 	}

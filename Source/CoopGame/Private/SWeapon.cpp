@@ -33,9 +33,9 @@ ASWeapon::ASWeapon()
 	MuzzleSocketName = "MuzzleSocket";
 	TracerTargetName = "BeamEnd";
 
-	BaseDamage = 20.0f;
+	BaseDamage = 20.f;
 
-	RateOfFire = 600.0f;
+	RateOfFire = 600.f;
 }
 
 void ASWeapon::BeginPlay()
@@ -75,7 +75,7 @@ void ASWeapon::Fire()
 			float ActualDamage = BaseDamage;
 			if (SurfaceType == SURFACE_FLESHVULNERABLE)
 			{
-				ActualDamage *= 4.0f;
+				ActualDamage *= 4.f;
 			}
 
 			UGameplayStatics::ApplyPointDamage(HitActor, ActualDamage, ShotDirection, Hit,
@@ -105,7 +105,7 @@ void ASWeapon::Fire()
 
 		if (DebugWeaponDrawing > 0)
 		{
-			DrawDebugLine(GetWorld(), EyeLoction, TraceEnd, FColor::White, false, 1.0f, 0, 1.0f);
+			DrawDebugLine(GetWorld(), EyeLoction, TraceEnd, FColor::White, false, 1.f, 0, 1.f);
 		}
 
 		PlayFireEffects(TraceEndPoint);
@@ -116,7 +116,7 @@ void ASWeapon::Fire()
 
 void ASWeapon::StartFire()
 {
-	float FirstDelay = FMath::Max(0.0f, LastFireTime + TimeBetweenShots - GetWorld()->TimeSeconds);
+	float FirstDelay = FMath::Max(0.f, LastFireTime + TimeBetweenShots - GetWorld()->TimeSeconds);
 
 	GetWorldTimerManager().SetTimer(TimerHandle_TimeBetweenShots, this, &ASWeapon::Fire, TimeBetweenShots, true,
 	                                FirstDelay);

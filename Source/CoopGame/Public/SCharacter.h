@@ -9,6 +9,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class ASWeapon;
+class USHealthComponent;
 
 UCLASS()
 
@@ -38,6 +39,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USpringArmComponent* SpringComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USHealthComponent* HealComp;
+
 	bool bWantsToZoom;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
@@ -63,6 +67,15 @@ protected:
 	void StartFire();
 
 	void StopFire();
+
+	UFUNCTION()
+	void OnHealthChanged(const class USHealthComponent* HealthComp, float Health,
+	                     float HealthDelta, const class UDamageType* DamageType,
+	                     class AController* InstigatedBy, AActor* DamageCauser);
+
+	/* Pawn died previously */
+	UPROPERTY(BlueprintReadOnly, Category = "Player")
+	bool bDied;
 
 public:
 	// Called every frame
