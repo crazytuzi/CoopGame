@@ -7,6 +7,7 @@
 #include "STracketBot.generated.h"
 
 UCLASS()
+
 class COOPGAME_API ASTracketBot : public APawn
 {
 	GENERATED_BODY()
@@ -17,13 +18,14 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* MeshComp;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	FVector GetNextPathPoint();
 
+public:
+	// Called every frame
+	void Tick(float DeltaTime) override;
 };
