@@ -7,6 +7,7 @@
 #include "NavigationPath.h"
 #include <GameFramework/Character.h>
 #include <Kismet/GameplayStatics.h>
+#include <DrawDebugHelpers.h>
 
 // Sets default values
 ASTracketBot::ASTracketBot()
@@ -16,14 +17,24 @@ ASTracketBot::ASTracketBot()
 
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	MeshComp->SetCanEverAffectNavigation(false);
+	MeshComp->SetSimulatePhysics(true);
 
 	RootComponent = MeshComp;
+
+	bUseVelocityChange = true;
+
+	MovementForce = 1000.f;
+
+	RequireDistanceToTarget = 100.f;
 }
 
 // Called when the game starts or when spawned
 void ASTracketBot::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Find initial move-to
+	NextPathPoint = GetNextPathPoint();
 }
 
 FVector ASTracketBot::GetNextPathPoint()
@@ -50,4 +61,28 @@ FVector ASTracketBot::GetNextPathPoint()
 void ASTracketBot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	float DistanceToTarget = (GetActorLocation() - NextPathPoint).Size();
+
+	if (DistanceToTarget <= RequireDistanceToTarget)
+	{
+		NextPathPoint = GetNextPathPoint();
+
+		DrawDebugString(GetWorld(), GetActorLocation(), "Target Reached!");
+	}
+	else
+	{
+		// Keep moving towards next target
+		FVector ForceDirection = NextPathPoint - GetActorLocation();
+		ForceDirection.Normalize();
+
+		ForceDirection *= MovementForce;
+
+		MeshComp->AddForce(ForceDirection, NAME_None, bUseVelocityChange);
+
+		DrawDebugDirectionalArrow(GetWorld(), GetActorLocation(), GetActorLocation() + ForceDirection, 32.f,
+		                          FColor::Yellow, false, 0.f, 1.f);
+	}
+
+	DrawDebugSphere(GetWorld(), NextPathPoint, 20.f, 12.f, FColor::Yellow, false, 0.f, 1.f);
 }
