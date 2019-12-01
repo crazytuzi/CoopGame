@@ -8,6 +8,7 @@
 
 class USHealthComponent;
 class UMaterialInstanceDynamic;
+class UParticleSystem;
 
 UCLASS()
 
@@ -50,6 +51,19 @@ protected:
 
 	// Dynamic material to pulse on damage
 	UMaterialInstanceDynamic* MatInst;
+
+	void SelfDestruct();
+
+	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
+	UParticleSystem* ExplosionEffect;
+
+	bool bExploded;
+
+	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
+	float ExplosionRadius;
+
+	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
+	float ExplosionDamage;
 
 public:
 	// Called every frame
