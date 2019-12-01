@@ -10,6 +10,7 @@ class USHealthComponent;
 class UMaterialInstanceDynamic;
 class UParticleSystem;
 class USphereComponent;
+class USoundCue;
 
 UCLASS()
 
@@ -69,11 +70,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
 	float ExplosionDamage;
 
+	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
+	float SelfDamageInterval;
+
 	bool bStartedSelfDestruction;
 
 	FTimerHandle TimeHandle_SelfDamage;
 
 	void DamageSelf();
+
+	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
+	USoundCue* SelfDestructSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
+	USoundCue* ExplodeSound;
 
 public:
 	// Called every frame

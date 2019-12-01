@@ -11,6 +11,7 @@
 #include "SHealthComponent.h"
 #include "SCharacter.h"
 #include "Components/SphereComponent.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ASTracketBot::ASTracketBot()
@@ -41,6 +42,8 @@ ASTracketBot::ASTracketBot()
 
 	ExplosionDamage = 40.f;
 	ExplosionRadius = 200.f;
+
+	SelfDamageInterval = 0.25f;
 }
 
 // Called when the game starts or when spawned
@@ -117,6 +120,8 @@ void ASTracketBot::SelfDestruct()
 
 	DrawDebugSphere(GetWorld(), GetActorLocation(), ExplosionRadius, 12.f, FColor::Red, false, 2.f, 0.f, 1.f);
 
+	UGameplayStatics::PlaySoundAtLocation(this, ExplodeSound, GetActorLocation());
+
 	// Delete Actor immediately
 	Destroy();
 }
@@ -166,9 +171,12 @@ void ASTracketBot::NotifyActorBeginOverlap(AActor* OtherActor)
 			// We overlapped with a player!
 
 			// Start self destruction sequence
-			GetWorldTimerManager().SetTimer(TimeHandle_SelfDamage, this, &ASTracketBot::DamageSelf, 0.5f, true, 0.f);
+			GetWorldTimerManager().SetTimer(TimeHandle_SelfDamage, this, &ASTracketBot::DamageSelf, SelfDamageInterval,
+			                                true, 0.f);
 
 			bStartedSelfDestruction = true;
+
+			UGameplayStatics::SpawnSoundAttached(SelfDestructSound, RootComponent);
 		}
 	}
 }
