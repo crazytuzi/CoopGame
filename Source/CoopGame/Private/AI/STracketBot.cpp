@@ -9,6 +9,8 @@
 #include <Kismet/GameplayStatics.h>
 #include <DrawDebugHelpers.h>
 #include "SHealthComponent.h"
+#include "SCharacter.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 ASTracketBot::ASTracketBot()
@@ -23,6 +25,13 @@ ASTracketBot::ASTracketBot()
 
 	HealComp = CreateDefaultSubobject<USHealthComponent>(TEXT("HealComp"));
 	HealComp->OnHealthChanged.AddDynamic(this, &ASTracketBot::HandleTakeDamage);
+
+	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
+	SphereComp->SetSphereRadius(200.f);
+	SphereComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	SphereComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+	SphereComp->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	SphereComp->SetupAttachment(RootComponent);
 
 	bUseVelocityChange = true;
 
@@ -112,6 +121,11 @@ void ASTracketBot::SelfDestruct()
 	Destroy();
 }
 
+void ASTracketBot::DamageSelf()
+{
+	UGameplayStatics::ApplyDamage(this, 20.f, GetInstigatorController(), this, nullptr);
+}
+
 // Called every frame
 void ASTracketBot::Tick(float DeltaTime)
 {
@@ -140,4 +154,21 @@ void ASTracketBot::Tick(float DeltaTime)
 	}
 
 	DrawDebugSphere(GetWorld(), NextPathPoint, 20.f, 12.f, FColor::Yellow, false, 0.f, 1.f);
+}
+
+void ASTracketBot::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	if (!bStartedSelfDestruction)
+	{
+		ASCharacter* PlayerPawn = Cast<ASCharacter>(OtherActor);
+		if (PlayerPawn != nullptr)
+		{
+			// We overlapped with a player!
+
+			// Start self destruction sequence
+			GetWorldTimerManager().SetTimer(TimeHandle_SelfDamage, this, &ASTracketBot::DamageSelf, 0.5f, true, 0.f);
+
+			bStartedSelfDestruction = true;
+		}
+	}
 }

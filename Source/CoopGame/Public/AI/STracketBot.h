@@ -9,6 +9,7 @@
 class USHealthComponent;
 class UMaterialInstanceDynamic;
 class UParticleSystem;
+class USphereComponent;
 
 UCLASS()
 
@@ -29,6 +30,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USHealthComponent* HealComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USphereComponent* SphereComp;
 
 	UFUNCTION()
 	void HandleTakeDamage(const class USHealthComponent* HealthComp, float Health,
@@ -65,7 +69,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
 	float ExplosionDamage;
 
+	bool bStartedSelfDestruction;
+
+	FTimerHandle TimeHandle_SelfDamage;
+
+	void DamageSelf();
+
 public:
 	// Called every frame
 	void Tick(float DeltaTime) override;
+
+	void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };
