@@ -7,6 +7,7 @@
 #include "STracketBot.generated.h"
 
 class USHealthComponent;
+class UMaterialInstanceDynamic;
 
 UCLASS()
 
@@ -46,6 +47,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "TracketBot")
 	float RequireDistanceToTarget;
+
+	// Dynamic material to pulse on damage
+	UMaterialInstanceDynamic* MatInst;
 
 public:
 	// Called every frame

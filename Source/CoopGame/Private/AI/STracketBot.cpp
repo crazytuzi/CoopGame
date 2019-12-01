@@ -47,6 +47,17 @@ void ASTracketBot::HandleTakeDamage(const USHealthComponent* HealthComp, float H
 
 	// @TODO: Pulse the material on hit
 
+	if (MatInst == nullptr)
+	{
+		MatInst = MeshComp->CreateAndSetMaterialInstanceDynamicFromMaterial(0, MeshComp->GetMaterial(0));
+	}
+
+	if (MatInst != nullptr)
+	{
+		MatInst->SetScalarParameterValue("LastTimeDamageTaken", GetWorld()->TimeSeconds);
+	}
+
+
 	UE_LOG(LogTemp, Log, TEXT("Health %s of %s"), *FString::SanitizeFloat(Health), *GetName());
 }
 
