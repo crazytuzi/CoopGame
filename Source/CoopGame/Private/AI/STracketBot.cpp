@@ -8,6 +8,7 @@
 #include <GameFramework/Character.h>
 #include <Kismet/GameplayStatics.h>
 #include <DrawDebugHelpers.h>
+#include "SHealthComponent.h"
 
 // Sets default values
 ASTracketBot::ASTracketBot()
@@ -18,8 +19,10 @@ ASTracketBot::ASTracketBot()
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	MeshComp->SetCanEverAffectNavigation(false);
 	MeshComp->SetSimulatePhysics(true);
-
 	RootComponent = MeshComp;
+
+	HealComp = CreateDefaultSubobject<USHealthComponent>(TEXT("HealComp"));
+	HealComp->OnHealthChanged.AddDynamic(this, &ASTracketBot::HandleTakeDamage);
 
 	bUseVelocityChange = true;
 
@@ -35,6 +38,16 @@ void ASTracketBot::BeginPlay()
 
 	// Find initial move-to
 	NextPathPoint = GetNextPathPoint();
+}
+
+void ASTracketBot::HandleTakeDamage(const USHealthComponent* HealthComp, float Health, float HealthDelta,
+                                    const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+	// Explode on hitpoints = 0
+
+	// @TODO: Pulse the material on hit
+
+	UE_LOG(LogTemp, Log, TEXT("Health %s of %s"), *FString::SanitizeFloat(Health), *GetName());
 }
 
 FVector ASTracketBot::GetNextPathPoint()
