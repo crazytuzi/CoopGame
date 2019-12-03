@@ -36,10 +36,12 @@ void ASPowerupActor::OnTickPowerup()
 
 void ASPowerupActor::ActivatePowerup()
 {
+	OnActivated();
+
 	if (PowerupInterval > 0.f)
 	{
 		GetWorldTimerManager().SetTimer(TimeHandle_PowerupTick, this, &ASPowerupActor::OnTickPowerup, PowerupInterval,
-		                                true, 0.f);
+		                                true);
 	}
 	else
 	{
