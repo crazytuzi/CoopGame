@@ -25,7 +25,7 @@ void ASPowerupActor::OnTickPowerup()
 
 	OnPowerupTicked();
 
-	if (TotalNrOfTicks >= TicksProcessed)
+	if (TotalNrOfTicks < TicksProcessed)
 	{
 		OnExpired();
 

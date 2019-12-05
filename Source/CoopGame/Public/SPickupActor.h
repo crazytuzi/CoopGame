@@ -30,18 +30,18 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UDecalComponent* DecalComp;
 
-	UPROPERTY(EditDefaultsOnly, Category = "PickupActor")
+	UPROPERTY(EditInstanceOnly, Category = "PickupActor")
 	TSubclassOf<ASPowerupActor> PowerUpClass;
 
 	ASPowerupActor* PowerUpInstance;
 
 	UPROPERTY(EditDefaultsOnly, Category = "PickupActor")
-		float CooldownDuration;
+	float CooldownDuration;
 
 	FTimerHandle TimerHandle_RespawnTimer;
-	
+
 	void Respawn();
-	
+
 public:
 	void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };
