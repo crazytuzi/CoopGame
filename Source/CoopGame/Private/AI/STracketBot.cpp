@@ -134,7 +134,7 @@ void ASTracketBot::SelfDestruct()
 		                                    IgnoredActors, this,
 		                                    GetInstigatorController(), true);
 
-		DrawDebugSphere(GetWorld(), GetActorLocation(), ExplosionRadius, 12.f, FColor::Red, false, 2.f, 0.f, 1.f);
+		// DrawDebugSphere(GetWorld(), GetActorLocation(), ExplosionRadius, 12.f, FColor::Red, false, 2.f, 0.f, 1.f);
 
 		SetLifeSpan(2.f);
 	}
@@ -160,7 +160,7 @@ void ASTracketBot::OnCheckNearbyBots()
 	TArray<FOverlapResult> Overlaps;
 	GetWorld()->OverlapMultiByObjectType(Overlaps, GetActorLocation(), FQuat::Identity, QueryParams, CollShape);
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), Radius, 12.f, FColor::Red, false, 1.f);
+	// DrawDebugSphere(GetWorld(), GetActorLocation(), Radius, 12.f, FColor::Red, false, 1.f);
 
 	int32 NrofBots = 0;
 
@@ -190,7 +190,7 @@ void ASTracketBot::OnCheckNearbyBots()
 		MatInst->SetScalarParameterValue("PowerLevelAlpha", Alpha);
 	}
 
-	DrawDebugString(GetWorld(), FVector::ZeroVector, FString::FromInt(PowerLevel), this, FColor::White, 1.f, true);
+	// DrawDebugString(GetWorld(), FVector::ZeroVector, FString::FromInt(PowerLevel), this, FColor::White, 1.f, true);
 }
 
 // Called every frame
@@ -206,7 +206,7 @@ void ASTracketBot::Tick(float DeltaTime)
 		{
 			NextPathPoint = GetNextPathPoint();
 
-			DrawDebugString(GetWorld(), GetActorLocation(), "Target Reached!");
+			// DrawDebugString(GetWorld(), GetActorLocation(), "Target Reached!");
 		}
 		else
 		{
@@ -218,11 +218,11 @@ void ASTracketBot::Tick(float DeltaTime)
 
 			MeshComp->AddForce(ForceDirection, NAME_None, bUseVelocityChange);
 
-			DrawDebugDirectionalArrow(GetWorld(), GetActorLocation(), GetActorLocation() + ForceDirection, 32.f,
-			                          FColor::Yellow, false, 0.f, 1.f);
+			// DrawDebugDirectionalArrow(GetWorld(), GetActorLocation(), GetActorLocation() + ForceDirection, 32.f,
+			//                           FColor::Yellow, false, 0.f, 1.f);
 		}
 
-		DrawDebugSphere(GetWorld(), NextPathPoint, 20.f, 12.f, FColor::Yellow, false, 0.f, 1.f);
+		// DrawDebugSphere(GetWorld(), NextPathPoint, 20.f, 12.f, FColor::Yellow, false, 0.f, 1.f);
 	}
 }
 
