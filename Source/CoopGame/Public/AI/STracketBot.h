@@ -89,9 +89,13 @@ protected:
 
 	int32 PowerLevel;
 
+	FTimerHandle TimerHandle_RefreshPath;
+
 public:
 	// Called every frame
 	void Tick(float DeltaTime) override;
 
 	void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+	void RefreshPath();
 };
